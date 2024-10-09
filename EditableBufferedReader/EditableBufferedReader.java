@@ -2,15 +2,16 @@ import java.io.*;
 
 public class EditableBufferedReader extends BufferedReader {
 
-    static final int ESC = 27;
     static final int CR = 13;
+    static final int ESC = 27;
     static final int BRACKET = 91;
-
-    static final int RIGHT = 67;
-    static final int LEFT = 68;
-    static final int HOME = 72;
+    static final int RIGHT = 67; // C
+    static final int LEFT = 68; // D
+    static final int FIN = 70; // F
+    static final int HOME = 72; // H
     static final int BACKSPACE = 127;
-    static final int FIN = 70; 
+    static final int INSERT = 50;
+    static final int DELETE = 8;
 
     public final Line linia;
 
@@ -51,6 +52,10 @@ public class EditableBufferedReader extends BufferedReader {
                         return HOME; // Home ^[[H
                     case 'F':
                         return FIN; // End ^[[F
+                    case '2':
+                        return INSERT;
+                    case '3':
+                        return DELETE;
                     default:
                         break;
                 }
@@ -80,6 +85,12 @@ public class EditableBufferedReader extends BufferedReader {
                     linia.fin();
                     break;
                 case BACKSPACE:
+                    linia.backspace();
+                    break;
+                case INSERT:
+                    linia.insert();
+                    break;
+                case DELETE:
                     linia.delete();
                     break;
                 default:
