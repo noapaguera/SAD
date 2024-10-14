@@ -53,9 +53,11 @@ public class EditableBufferedReader extends BufferedReader {
                     case 'F':
                         return FIN; // End ^[[F
                     case '2':
-                        return INSERT;
+                        ch = super.read();
+                        return INSERT; // ^[[2~
                     case '3':
-                        return DELETE;
+                        ch = super.read();
+                        return DELETE; // ^[[3~
                     default:
                         break;
                 }
