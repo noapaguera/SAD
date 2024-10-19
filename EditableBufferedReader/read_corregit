@@ -1,0 +1,42 @@
+import java.io.IOException;
+
+public int read() throws IOException {
+    int ch, ch1;
+    if ((ch = super.read()) != '\033')
+        return ch;
+    switch (ch = super.read()) {
+        case 'O':
+            switch (ch = super.read()) {
+                case 'H': return KEY.HOME;
+                case 'F': return KEY.END;
+                default: return ch; 
+            }
+        case '[':
+            switch(ch = super.read()) {
+                case 'C': return KEY.RIGHT;
+                case 'D': return KEY.LEFT;
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                    if ((ch1 = super.read()) != '-')
+                        return ch1;
+                    return KEY.HOME + ch - '1';
+                default: return ch;
+            }
+        default: return ch;
+    }
+}
+
+public int read() throws IOException {
+    int ch;
+    if (match("\033OH"))
+        return KEY.HOME;
+    if (match("\033OF"))
+        return KEY.FIN;
+    if (match("\033[[CD]"))
+	    return KEY.RIGHT + ch - 'C' ;
+    if (match("\033[[1234]~"))
+	    return KEY.HOME + ch - '1' ;
+    return ch;
+}
