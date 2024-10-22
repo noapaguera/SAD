@@ -1,3 +1,5 @@
+package EditableBufferedReaderMVC;
+
 import java.io.*;
 
 class TestReadLine {

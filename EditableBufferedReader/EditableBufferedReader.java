@@ -1,8 +1,11 @@
+package EditableBufferedReader;
+
+import java.io.IOException;
 import java.io.*;
 
 public class EditableBufferedReader extends BufferedReader {
 
-/*     static final int CR = 13;
+    static final int CR = 13;
     static final int ESC = 27;
     static final int BRACKET = 91;
     static final int RIGHT = 67; // C
@@ -12,7 +15,7 @@ public class EditableBufferedReader extends BufferedReader {
     static final int BACKSPACE = 127;
     static final int INSERT = 50;
     static final int DELETE = 51;
- */
+    
     public final Line linia;
 
     public EditableBufferedReader(InputStreamReader in) {
@@ -39,23 +42,23 @@ public class EditableBufferedReader extends BufferedReader {
     }
 
     // Llegeix el següent caràcter o tecla especial
-    @Override
+    /*  @Override
     public int read() throws IOException {
         int ch = 0;
         if (match("\033[H"))
-            return KEY.HOME;
+            return Keys.HOME;
         if (match("\033[F"))
-            return KEY.FIN;
+            return Keys.FIN;
         if (match("\033[C"))
-	        return KEY.RIGHT;
+            return Keys.RIGHT;
         if (match("\033[D"))
-	        return KEY.LEFT;
+            return Keys.LEFT;
         if (match("\033[2~"))
-	        return KEY.INSERT;
+            return Keys.INSERT;
         if (match("\033[3~"))
-	        return KEY.DELETE;
+            return Keys.DELETE;
         if (match("^?"))
-	        return KEY.BACKSPACE;
+            return Keys.BACKSPACE;
         ch = super.read();
         return ch;
     }
@@ -64,27 +67,27 @@ public class EditableBufferedReader extends BufferedReader {
     public String readLine() throws IOException {
         this.setRaw();
         int ch;
-        while ((ch = this.read()) != KEY.CR_ASCII) {
+        while ((ch = this.read()) != Keys.CR_ASCII) {
             switch (ch) {
-                case KEY.RIGHT:
+                case Keys.RIGHT:
                     linia.moveRight();
                     break;
-                case KEY.LEFT:
+                case Keys.LEFT:
                     linia.moveLeft();
                     break;
-                case KEY.HOME:
+                case Keys.HOME:
                     linia.home();
                     break;
-                case KEY.FIN:
+                case Keys.FIN:
                     linia.fin();
                     break;
-                case KEY.BACKSPACE:
+                case Keys.BACKSPACE:
                     linia.backspace();
                     break;
-                case KEY.INSERT:
+                case Keys.INSERT:
                     linia.insert();
                     break;
-                case KEY.DELETE:
+                case Keys.DELETE:
                     linia.delete();
                     break;
                 default:
@@ -95,7 +98,7 @@ public class EditableBufferedReader extends BufferedReader {
         this.unsetRaw();
         linia.home();
         return linia.toString();
-    }
+    } */
 
     /* match (mètode de parsing (lèxic)) 
         retorna true i avança el cursor de lectura si reconeix el substring
@@ -103,7 +106,7 @@ public class EditableBufferedReader extends BufferedReader {
         1.- usar metodes de Reader
         2.- fer servir un prefix
     */
-    private boolean match(String str) throws IOException {
+    /* private boolean match(String str) throws IOException {
         mark(str.length());
         for (char c : str.toCharArray()) {
             if ((char)super.read() != c) {
@@ -112,8 +115,8 @@ public class EditableBufferedReader extends BufferedReader {
             }
         }
         return true;
-    }
-/*     // Llegeix el següent caràcter o tecla especial
+    } */
+    // Llegeix el següent caràcter o tecla especial
     public int read() throws IOException {
         int ch = 0;
         if ((ch = super.read()) == ESC) {
@@ -179,5 +182,5 @@ public class EditableBufferedReader extends BufferedReader {
         unsetRaw();
         linia.home();
         return linia.toString();
-    } */
+    } 
 }

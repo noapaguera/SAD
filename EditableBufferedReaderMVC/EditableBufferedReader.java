@@ -1,14 +1,45 @@
+package EditableBufferedReaderMVC;
+
 import java.io.*;
 
-public class EditableBufferedReaderMVC extends EditableBufferedReader {
+public class EditableBufferedReader extends BufferedReader{
 
-    public EditableBufferedReaderMVC(InputStreamReader in) {
+    static final int CR = 13;
+    static final int ESC = 27;
+    static final int BRACKET = 91;
+    static final int RIGHT = 67; // C
+    static final int LEFT = 68; // D
+    static final int FIN = 70; // F
+    static final int HOME = 72; // H
+    static final int BACKSPACE = 127;
+    static final int INSERT = 50;
+    static final int DELETE = 51;
+ 
+    public EditableBufferedReader(InputStreamReader in) {
         super(in);
     }
     
+    public void setRaw() {
+        try {
+            ProcessBuilder pb = new ProcessBuilder("sh", "-c", "stty -echo raw < /dev/tty");
+            pb.inheritIO().start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unsetRaw() {
+        try {
+            ProcessBuilder pb = new ProcessBuilder("sh", "-c", "stty echo cooked < /dev/tty");
+            pb.inheritIO().start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Llegeix la línia amb possibilitat d'editar-la
     public String readLine() throws IOException {
-        LineMVC line = new LineMVC();
+        Line line = new Line();
         this.setRaw();
         int ch = this.read();
         while (ch != CR) {
@@ -44,4 +75,5 @@ public class EditableBufferedReaderMVC extends EditableBufferedReader {
         line.home();
         return line.toString();
     }
+
 }

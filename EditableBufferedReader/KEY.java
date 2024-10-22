@@ -1,3 +1,5 @@
+package EditableBufferedReader;
+
 public class KEY {
     // ASCII code
     public static final int CR_ASCII = 13; // Carriage Return

@@ -1,14 +1,15 @@
-import java.util.*;
+package EditableBufferedReaderMVC;
+
+import java.io.Console;
+import java.util.ArrayList;
 import java.util.Observable;
 
-@SuppressWarnings("deprecation")
-public class LineMVC extends Observable {
-
-	private int cursorPos;
+public class Line extends Observable{
+    private int cursorPos;
 	private ArrayList<Character> line;
 	private boolean insert;
 
-	public LineMVC() {
+	public Line() {
 		cursorPos = 0;
 		line = new ArrayList<Character>();
 		insert = false;
@@ -31,6 +32,7 @@ public class LineMVC extends Observable {
 			}
 		}
 		this.cursorPos++;
+		//this.setChanged();
 		this.notifyObservers(ch);
 	}
 
@@ -52,12 +54,14 @@ public class LineMVC extends Observable {
 
 	public void insert() {
 		this.insert = !this.insert;
-		this.notifyObservers("\\u001b[2~");
+		//this.setChanged();
+		//this.notifyObservers("\u001b[2~");
 	}
 
 	public void moveRight() {
 		if (this.cursorPos < line.size()) {
 			this.cursorPos++;
+			this.setChanged();
 			this.notifyObservers("\u001b[C");
 		}
 	}
@@ -65,17 +69,20 @@ public class LineMVC extends Observable {
 	public void moveLeft() {
 		if (cursorPos > 0) {
 			this.cursorPos--;
+			this.setChanged();
 			this.notifyObservers("\u001b[D");
 		}
 	}
 
 	public void home() {
 		this.cursorPos = 0;
+		this.setChanged();
 		this.notifyObservers("\u001b[G");
 	}
 
 	public void fin() {
 		this.cursorPos = this.line.size();
+		this.setChanged();
 		this.notifyObservers("\u001b[" + (this.line.size() + 1) + "G");
 	}
 
