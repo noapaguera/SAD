@@ -5,6 +5,7 @@ import java.io.*;
 
 public class EditableBufferedReader extends BufferedReader {
 
+    // posar constants negatives
     static final int CR = 13;
     static final int ESC = 27;
     static final int BRACKET = 91;
