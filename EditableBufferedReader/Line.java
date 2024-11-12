@@ -36,8 +36,8 @@ public class Line {
 		if (this.cursorPos > 0) {
 			this.cursorPos--;
 			this.line.remove(this.cursorPos);
-			System.out.print("\u001b[D");
-			System.out.print("\u001b[P");
+			System.out.print("\u001b[D"); // Mou el cursor 1 a l'esquerra
+			System.out.print("\u001b[P"); // Esborra el caracter a la posició del cursor
 		}
 	}
 
