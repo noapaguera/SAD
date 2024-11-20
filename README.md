@@ -15,3 +15,11 @@ El model informa les vistes amb notifyObservers quan el seu estat canvia. Intern
 Programació d’una aplicació Xat textual amb servidor centralitzat.
 MySocket i MyServerSocket encapsulen les excepcions i streams de text BufferedReader i PrintWriter.
 https://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html
+
+# Client gràfic amb Swing
+
+https://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html
+
+# Projecte: ChessGame
+
+Escacs multijugador
