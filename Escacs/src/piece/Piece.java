@@ -1,5 +1,7 @@
 package piece;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import main.GameBoard;
 
 
@@ -17,6 +19,16 @@ public class Piece {
         y = getY(row);
         preCol = col;
         preRow = row;
+
+    }
+    public BufferedImage getImage(String imgPath){
+        BufferedImage i =null;
+        try {
+            i = ImageIO.read(getClass().getResourceAsStream(imgPath+".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return i;
 
     }
     //passant columna i fila podem saber on està la peça multipliquem el quadradet per n fila/col
