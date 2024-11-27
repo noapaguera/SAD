@@ -10,3 +10,10 @@ class TestReadLine {
         } catch (IOException e) { e.printStackTrace(); }
     }
 }
+
+/* ARREGLAR:
+ok tecla Supr (delete)
+tecla Fin
+la vista despres de fer Enter
+text dsps de Enter
+*/

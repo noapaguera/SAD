@@ -31,7 +31,7 @@ public class Line extends Observable{
 			}
 		}
 		this.cursorPos++;
-		//this.setChanged();
+		this.setChanged();
 		this.notifyObservers(ch);
 	}
 
@@ -53,8 +53,6 @@ public class Line extends Observable{
 
 	public void insert() {
 		this.insert = !this.insert;
-		//this.setChanged();
-		//this.notifyObservers("\u001b[2~");
 	}
 
 	public void moveRight() {
@@ -76,7 +74,7 @@ public class Line extends Observable{
 	public void home() {
 		this.cursorPos = 0;
 		this.setChanged();
-		this.notifyObservers("\u001b[G");
+		this.notifyObservers("\u001b[G"); // CSI n G 	Moves the cursor to column n (default 1)
 	}
 
 	public void fin() {
@@ -90,8 +88,8 @@ public class Line extends Observable{
 	}
 
 	public String toString() {
-		String str = this.line.get(0).toString();
-		for (int i = 1; i < this.line.size(); i++) {
+		String str = "";
+		for (int i = 0; i < this.line.size(); i++) {
 			str = str + this.line.get(i).toString();
 		}
 		return str;

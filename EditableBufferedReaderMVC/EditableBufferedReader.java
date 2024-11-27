@@ -63,6 +63,7 @@ public class EditableBufferedReader extends BufferedReader{
                     line.insert();
                     break;
                 case DELETE:
+                    ch = super.read();
                     line.delete();
                     break;
                 default:

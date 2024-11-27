@@ -20,6 +20,6 @@ https://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html
 
 https://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html
 
-# Projecte: ChessGame
+# Projecte: Escacs
 
 Escacs multijugador

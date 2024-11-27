@@ -3,7 +3,6 @@ package EditableBufferedReaderMVC;
 import java.util.Observable;
 import java.util.Observer;
 
-@SuppressWarnings("deprecation")
 public class Console implements Observer{
     private Line l;
     public Console (Line line) {
