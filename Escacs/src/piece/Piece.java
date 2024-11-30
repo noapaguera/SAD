@@ -37,6 +37,22 @@ public class Piece {
     public int getY(int row){
         return row* GameBoard.SQUARE_SIZE;
     }
+    public int getCol(int x){
+        //java posa les posicions adalt esquerra, per obtenir la posició restem mitja quadrat i tindrem el centre
+        return (x+GameBoard.MITJ);
+    }
+    public int getRow(int y){
+
+        return (y+GameBoard.MITJ);
+    }
+    public void update_poscio(){
+        x = getX(col);
+        y = getY(row);
+        // només deixem que la peça es pugui posar al centra d'un requadre
+        preCol = getCol(x);
+        preRow = getRow(y);
+
+    }
     public void draw(Graphics2D gD) {
         gD.drawImage(image, x, y, GameBoard.SQUARE_SIZE, GameBoard.SQUARE_SIZE, null);
     }
