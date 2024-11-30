@@ -7,9 +7,9 @@ public class Knight extends Piece{
         super(color, col, row);
         
         if (color == GameView.WHITE) {
-            image = getImage("/piece/w-knight");
+            image = getImage("/images/piece/w-knight.png");
         } else {
-            image = getImage("/piece/b-knight");
+            image = getImage("/images/piece/b-knight.png");
         }
     }
 }

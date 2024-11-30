@@ -24,7 +24,7 @@ public class Piece {
     public BufferedImage getImage(String imgPath) {
         BufferedImage i = null;
         try {
-            i = ImageIO.read(getClass().getResourceAsStream(imgPath+".png"));
+            i = ImageIO.read(getClass().getResourceAsStream(imgPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
