@@ -110,5 +110,8 @@ public class GameView extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D gD = (Graphics2D)g;
         board.draw(gD);
+        for (Piece p : pieces) {
+            p.draw(gD);
+        }
     }
 }

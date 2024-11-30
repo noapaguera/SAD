@@ -7,9 +7,9 @@ public class Pawn extends Piece{
         super(color, col, row);
         
         if (color == GameView.WHITE) {
-            image = getImage("/images/w-pawn");
+            image = getImage("/images/piece/w-pawn");
         } else {
-            image = getImage("/images/b-pawn");
+            image = getImage("/images/piece/w-pawn");
         }
     }
 }
