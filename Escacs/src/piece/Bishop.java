@@ -12,4 +12,10 @@ public class Bishop extends Piece{
             image = getImage("/images/piece/b-bishop.png");
         }
     }
+    public boolean potMoure(int targetCol, int targetRow) {
+        if (estaAlTauler(targetCol,targetRow)) {
+            
+        }
+        return false;
+    }
 }

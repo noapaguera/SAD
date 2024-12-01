@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -61,7 +62,7 @@ public class GameView extends JPanel implements Runnable {
         pieces.add(new King(WHITE, 4, 7));
         pieces.add(new Bishop(WHITE, 5, 7));
         pieces.add(new Knight(WHITE, 6, 7));
-        pieces.add(new Rook(WHITE, 7, 7));
+        pieces.add(new Rook(WHITE, 7, 4));
 
         // Peces negres
         pieces.add(new Pawn(BLACK, 0, 1));
@@ -165,9 +166,8 @@ public class GameView extends JPanel implements Runnable {
         if (peca_escollida.potMoure(peca_escollida.col, peca_escollida.row)) {
             potMoure = true;
             if (peca_escollida.hitPiece != null) {
-                simPieces.remove(peca_escollida.getIndex());
+                simPieces.remove(peca_escollida.hitPiece.getIndex());
             }
-
             casellaValida = true;
         }
     }
@@ -180,6 +180,11 @@ public class GameView extends JPanel implements Runnable {
             p.draw(gD);
         }
         if (peca_escollida != null) {
+            gD.setColor(Color.white);
+            gD.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+            gD.fillRect(peca_escollida.col*GameBoard.SQUARE_SIZE, peca_escollida.row*GameBoard.SQUARE_SIZE, GameBoard.SQUARE_SIZE, GameBoard.SQUARE_SIZE);
+            gD.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
             if (potMoure) {
                 peca_escollida.draw(gD);
             }

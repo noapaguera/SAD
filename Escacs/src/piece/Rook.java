@@ -12,4 +12,15 @@ public class Rook extends Piece{
             image = getImage("/images/piece/b-rook.png");
         }
     }
+    public boolean potMoure(int targetCol, int targetRow) {
+        if (estaAlTauler(targetCol,targetRow) && isSameSquare(targetCol, targetRow) == false) {
+            // la torre es pot moure en vertical o horitzontal
+            if (targetCol == preCol || targetRow == preRow) {
+                if (casellaValida(targetCol, targetRow)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

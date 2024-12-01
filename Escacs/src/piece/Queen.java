@@ -12,4 +12,10 @@ public class Queen extends Piece{
             image = getImage("/images/piece/b-queen.png");
         }
     }
+    public boolean potMoure(int targetCol, int targetRow) {
+        if (estaAlTauler(targetCol,targetRow)) {
+            
+        }
+        return false;
+    }
 }

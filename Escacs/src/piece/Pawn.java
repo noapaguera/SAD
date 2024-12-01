@@ -12,4 +12,10 @@ public class Pawn extends Piece{
             image = getImage("/images/piece/b-pawn.png");
         }
     }
+    public boolean potMoure(int targetCol, int targetRow) {
+        if (estaAlTauler(targetCol,targetRow)) {
+            
+        }
+        return false;
+    }
 }

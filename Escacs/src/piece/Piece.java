@@ -41,10 +41,10 @@ public class Piece {
     }
     public int getCol(int x){
         //java posa les posicions adalt esquerra, per obtenir la posició restem mitja quadrat i tindrem el centre
-        return (x + GameBoard.MITJ);
+        return (x + GameBoard.MITJ)/GameBoard.SQUARE_SIZE;
     }
     public int getRow(int y){
-        return (y + GameBoard.MITJ);
+        return (y + GameBoard.MITJ)/GameBoard.SQUARE_SIZE;
     }
     public int getIndex() {
         for (int index = 0; index < GameView.simPieces.size(); ++index) {
@@ -80,8 +80,13 @@ public class Piece {
         return false;
     }
 
+    public boolean isSameSquare(int targetCol, int targetRow) {
+        if (targetCol == preCol && targetRow == preRow) return true;
+        return false;
+    }
+
     public Piece getHitPiece(int targetCol, int targetRow) {
-        for (Piece piece : GameView.pieces) {
+        for (Piece piece : GameView.simPieces) {
             if (piece.col == targetCol && piece.row == targetRow && piece != this) {
                 return piece;
             }
