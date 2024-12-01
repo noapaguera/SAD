@@ -16,7 +16,7 @@ public class Rook extends Piece{
         if (estaAlTauler(targetCol,targetRow) && isSameSquare(targetCol, targetRow) == false) {
             // la torre es pot moure en vertical o horitzontal
             if (targetCol == preCol || targetRow == preRow) {
-                if (casellaValida(targetCol, targetRow)) {
+                if (casellaValida(targetCol, targetRow) && pecaEnLiniaRecta(targetCol, targetRow) == false) {
                     return true;
                 }
             }

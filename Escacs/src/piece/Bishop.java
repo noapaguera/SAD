@@ -13,8 +13,12 @@ public class Bishop extends Piece{
         }
     }
     public boolean potMoure(int targetCol, int targetRow) {
-        if (estaAlTauler(targetCol,targetRow)) {
-            
+        if (estaAlTauler(targetCol,targetRow) && isSameSquare(targetCol, targetRow) == false) {
+            if (Math.abs(targetCol - preCol) == Math.abs(targetRow - preRow)) {
+                if (casellaValida(targetCol, targetRow) && pecaEnLiniaDiagonal(targetCol, targetRow) == false) {
+                    return true;
+                }
+            }
         }
         return false;
     }
