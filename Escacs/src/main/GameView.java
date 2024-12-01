@@ -6,15 +6,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-import piece.Bishop;
-import piece.King;
-import piece.Knight;
-import piece.Pawn;
-import piece.Piece;
-import piece.Queen;
-import piece.Rook;
+import piece.*;
 
-public class GameView extends JPanel implements Runnable{
+public class GameView extends JPanel implements Runnable {
     public static final int AMPLE = 1100;
     public static final int ALT = 800;
     final int FPS = 60;
@@ -32,17 +26,20 @@ public class GameView extends JPanel implements Runnable{
     public static final int BLACK = 1;
     int currentColor = WHITE;
 
+    boolean potMoure;
+    boolean casellaValida;
+
     public GameView() {
-        //com volem que aparegui
-        setPreferredSize(new Dimension(AMPLE,ALT));
+        // com volem que aparegui
+        setPreferredSize(new Dimension(AMPLE, ALT));
         setBackground(Color.black);
         addMouseListener(ratoli);
         addMouseMotionListener(ratoli);
         setPieces();
         copyPieces(pieces, simPieces);
     }
-    public void launchGame(){
 
+    public void launchGame() {
         gameThread = new Thread(this);
         gameThread.start();
     }
@@ -65,7 +62,7 @@ public class GameView extends JPanel implements Runnable{
         pieces.add(new Bishop(WHITE, 5, 7));
         pieces.add(new Knight(WHITE, 6, 7));
         pieces.add(new Rook(WHITE, 7, 7));
-        
+
         // Peces negres
         pieces.add(new Pawn(BLACK, 0, 1));
         pieces.add(new Pawn(BLACK, 1, 1));
@@ -85,84 +82,107 @@ public class GameView extends JPanel implements Runnable{
         pieces.add(new Rook(BLACK, 7, 0));
     }
 
-    private void copyPieces(ArrayList<Piece> src, ArrayList<Piece> dst){
+    private void copyPieces(ArrayList<Piece> src, ArrayList<Piece> dst) {
         dst.clear();
-        for(int i = 0; i< src.size(); i++){
+        for (int i = 0; i < src.size(); i++) {
             dst.add(src.get(i));
         }
     }
 
     @Override
-    public void run(){
-        //Game loop
-        double drawInterval = 1000000000/FPS;
+    public void run() {
+        // Game loop
+        double drawInterval = 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
 
-        while(gameThread != null){
+        while (gameThread != null) {
 
             currentTime = System.nanoTime();
-            delta += (currentTime -lastTime)/drawInterval;
+            delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
-            if(delta >= 1){
+            if (delta >= 1) {
                 update();
                 repaint();
                 delta--;
             }
         }
     }
-    //fer updates de posició i peces que queden
-    private void update(){
-        //logica del ratolí
-        if(ratoli.pulsado){
-            //revisem si el jugador està o no agafant una peça
-            if(peca_escollida==null){
-                for(Piece piece : simPieces){
-                    //saber quina peça estem escollint dividim la posició del ratolí entre els quadrats per obtenir la posició de la peça
-                    if(piece.color == currentColor && piece.col==ratoli.x/GameBoard.SQUARE_SIZE && piece.row==ratoli.y/GameBoard.SQUARE_SIZE){
 
+    // fer updates de posició i peces que queden
+    private void update() {
+        // logica del ratolí
+        if (ratoli.pulsado) {
+            // revisem si el jugador està o no agafant una peça
+            if (peca_escollida == null) {
+                for (Piece piece : simPieces) {
+                    // saber quina peça estem escollint dividim la posició del ratolí entre els
+                    // quadrats per obtenir la posició de la peça
+                    if (piece.color == currentColor && piece.col == ratoli.x / GameBoard.SQUARE_SIZE
+                            && piece.row == ratoli.y / GameBoard.SQUARE_SIZE) {
                         peca_escollida = piece;
                     }
                 }
-
-            }
-            else{
-
-                //que la peça segueixi la trajectoria
+            } else {
+                // que la peça segueixi la trajectoria
                 movimentMouse();
             }
-
         }
-         if (ratoli.pulsado == false){
-
-            if(peca_escollida != null){
-                  // Ajustar la posición de la pieza a la cuadrícula del tablero
-        peca_escollida.col = ratoli.x / GameBoard.SQUARE_SIZE;
-        peca_escollida.row = ratoli.y / GameBoard.SQUARE_SIZE;
-
-        // Actualizar la posición visual de la pieza según la cuadrícula
-       
-                peca_escollida.update_poscio();
-                peca_escollida = null;
-            } 
+        if (ratoli.pulsado == false) {
+            if (peca_escollida != null) {
+                if (casellaValida) {
+                    // Actualizar la posició visual de la peça segons la quadrícula
+                    // i la llista de peces en cas que s'hagi capturat
+                    copyPieces(simPieces, pieces);
+                    peca_escollida.update_posicio();
+                } else {
+                    // moviment no valid, fem reset
+                    copyPieces(pieces, simPieces);
+                    peca_escollida.resetPosicio();
+                    peca_escollida = null;
+                }
+                // Ajustar la posició de la peça a la quadrícula del tauler
+                /* peca_escollida.col = ratoli.x / GameBoard.SQUARE_SIZE;
+                peca_escollida.row = ratoli.y / GameBoard.SQUARE_SIZE; */
+            }
         }
     }
-    private void movimentMouse(){
-        peca_escollida.x = ratoli.x- GameBoard.MITJ;
+
+    private void movimentMouse() {
+        potMoure = false;
+        casellaValida = false;
+
+        // Reset llista de peces en cada iteració
+        copyPieces(pieces, simPieces);
+
+        peca_escollida.x = ratoli.x - GameBoard.MITJ;
         peca_escollida.y = ratoli.y - GameBoard.MITJ;
         peca_escollida.col = peca_escollida.getCol(peca_escollida.x);
         peca_escollida.row = peca_escollida.getRow(peca_escollida.y);
 
+        // comprovar si la peça es pot moure a una casella valida
+        if (peca_escollida.potMoure(peca_escollida.col, peca_escollida.row)) {
+            potMoure = true;
+            if (peca_escollida.hitPiece != null) {
+                simPieces.remove(peca_escollida.getIndex());
+            }
+
+            casellaValida = true;
+        }
     }
-    
-    public void paintComponent(Graphics g){
+
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D gD = (Graphics2D)g;
+        Graphics2D gD = (Graphics2D) g;
         board.draw(gD);
         for (Piece p : simPieces) {
             p.draw(gD);
         }
-      
+        if (peca_escollida != null) {
+            if (potMoure) {
+                peca_escollida.draw(gD);
+            }
+        }
     }
 }
