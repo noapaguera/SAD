@@ -7,9 +7,9 @@ public class Knight extends Piece{
         super(color, col, row);
         
         if (color == GameView.WHITE) {
-            image = getImage("/images/piece/w-knight.png");
+            image = getImage("/images/w-knight.png");
         } else {
-            image = getImage("/images/piece/b-knight.png");
+            image = getImage("/images/b-knight.png");
         }
     }
     public boolean potMoure(int targetCol, int targetRow) {

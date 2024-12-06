@@ -175,11 +175,8 @@ public class GameView extends JPanel implements Runnable {
     }
 
     private void changeTurn() {
-        if (currentColor == WHITE) {
-            currentColor = BLACK;
-        } else {
-            currentColor = WHITE;
-        }
+        if (currentColor == WHITE) currentColor = BLACK;
+        else currentColor = WHITE;
         peca_escollida = null;
     }
 

@@ -7,9 +7,9 @@ public class King extends Piece{
         super(color, col, row);
         
         if (color == GameView.WHITE) {
-            image = getImage("/images/piece/w-king.png");
+            image = getImage("/images/w-king.png");
         } else {
-            image = getImage("/images/piece/b-king.png");
+            image = getImage("/images/b-king.png");
         }
     }
 

@@ -7,9 +7,9 @@ public class Bishop extends Piece{
         super(color, col, row);
         
         if (color == GameView.WHITE) {
-            image = getImage("/images/piece/w-bishop.png");
+            image = getImage("/images/w-bishop.png");
         } else {
-            image = getImage("/images/piece/b-bishop.png");
+            image = getImage("/images/b-bishop.png");
         }
     }
     public boolean potMoure(int targetCol, int targetRow) {

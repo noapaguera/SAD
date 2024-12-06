@@ -7,9 +7,9 @@ public class Queen extends Piece{
         super(color, col, row);
         
         if (color == GameView.WHITE) {
-            image = getImage("/images/piece/w-queen.png");
+            image = getImage("/images/w-queen.png");
         } else {
-            image = getImage("/images/piece/b-queen.png");
+            image = getImage("/images/b-queen.png");
         }
     }
 

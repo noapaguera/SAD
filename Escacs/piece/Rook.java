@@ -7,9 +7,9 @@ public class Rook extends Piece{
         super(color, col, row);
         
         if (color == GameView.WHITE) {
-            image = getImage("/images/piece/w-rook.png");
+            image = getImage("/images/w-rook.png");
         } else {
-            image = getImage("/images/piece/b-rook.png");
+            image = getImage("/images/b-rook.png");
         }
     }
     public boolean potMoure(int targetCol, int targetRow) {
