@@ -58,11 +58,11 @@ public class GameView extends JPanel implements Runnable {
         pieces.add(new Rook(WHITE, 0, 7));
         pieces.add(new Knight(WHITE, 1, 7));
         pieces.add(new Bishop(WHITE, 2, 7));
-        pieces.add(new Queen(WHITE, 3, 4));
-        pieces.add(new King(WHITE, 4, 4));
-        pieces.add(new Bishop(WHITE, 5, 4));
+        pieces.add(new Queen(WHITE, 3, 7));
+        pieces.add(new King(WHITE, 4, 7));
+        pieces.add(new Bishop(WHITE, 5, 7));
         pieces.add(new Knight(WHITE, 6, 7));
-        pieces.add(new Rook(WHITE, 7, 4));
+        pieces.add(new Rook(WHITE, 7, 7));
 
         // Peces negres
         pieces.add(new Pawn(BLACK, 0, 1));
@@ -133,10 +133,12 @@ public class GameView extends JPanel implements Runnable {
         if (ratoli.pulsado == false) {
             if (peca_escollida != null) {
                 if (casellaValida) {
+                    // Moviment confirmat
                     // Actualizar la posició visual de la peça segons la quadrícula
                     // i la llista de peces en cas que s'hagi capturat
                     copyPieces(simPieces, pieces);
                     peca_escollida.update_posicio();
+                    changeTurn();
                 } else {
                     // moviment no valid, fem reset
                     copyPieces(pieces, simPieces);
@@ -170,6 +172,15 @@ public class GameView extends JPanel implements Runnable {
             }
             casellaValida = true;
         }
+    }
+
+    private void changeTurn() {
+        if (currentColor == WHITE) {
+            currentColor = BLACK;
+        } else {
+            currentColor = WHITE;
+        }
+        peca_escollida = null;
     }
 
     public void paintComponent(Graphics g) {
