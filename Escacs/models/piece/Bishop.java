@@ -1,12 +1,12 @@
-package piece;
+package models.piece;
 
-import main.GameView;
+import controller.GameController;
 
 public class Bishop extends Piece{
     public Bishop(int color, int col, int row) {
         super(color, col, row);
         
-        if (color == GameView.WHITE) {
+        if (color == GameController.WHITE) {
             image = getImage("/images/w-bishop.png");
         } else {
             image = getImage("/images/b-bishop.png");

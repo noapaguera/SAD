@@ -1,48 +1,52 @@
-package main;
+package controller;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import models.GameBoard;
+import models.piece.*;
+import views.GameView;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.JPanel;
-import piece.*;
+import javax.swing.Timer;
 
-public class GameView extends JPanel implements Runnable {
-    public static final int AMPLE = 1100;
-    public static final int ALT = 800;
+public class GameController implements Runnable{
     final int FPS = 60;
     Thread gameThread;
-    GameBoard board = new GameBoard();
-    Ratoli ratoli = new Ratoli();
+    Ratoli ratoli;
+    public GameBoard board = new GameBoard();
+    GameView gw;
 
-    // Peces
-    public static ArrayList<Piece> pieces = new ArrayList<>();
-    public static ArrayList<Piece> simPieces = new ArrayList<>();
-    Piece peca_escollida;
 
     // Color
     public static final int WHITE = 0;
     public static final int BLACK = 1;
-    int currentColor = WHITE;
+    public static final int END_GAME = 2;
+    public int currentColor = WHITE;
 
-    boolean potMoure;
-    boolean casellaValida;
+    public boolean potMoure;
+    public boolean casellaValida;
 
-    public GameView() {
-        // com volem que aparegui
-        setPreferredSize(new Dimension(AMPLE, ALT));
-        setBackground(Color.black);
-        addMouseListener(ratoli);
-        addMouseMotionListener(ratoli);
+    //missatge canvi de torn
+    public String tornMsg = "";
+    public boolean missatgeCanviTron = false;
+
+    // Peces
+    public static ArrayList<Piece> pieces = new ArrayList<>();
+    public static ArrayList<Piece> simPieces = new ArrayList<>();
+    public Piece peca_escollida;
+
+    public GameController(GameView gw, Ratoli ratoli) {
+        this.ratoli = ratoli;
+        this.gw = gw;
         setPieces();
         copyPieces(pieces, simPieces);
     }
 
-    public void launchGame() {
-        gameThread = new Thread(this);
-        gameThread.start();
+    public void copyPieces(ArrayList<Piece> src, ArrayList<Piece> dst) {
+        dst.clear();
+        for (int i = 0; i < src.size(); i++) {
+            dst.add(src.get(i));
+        }
     }
 
     public void setPieces() {
@@ -83,11 +87,9 @@ public class GameView extends JPanel implements Runnable {
         pieces.add(new Rook(BLACK, 7, 0));
     }
 
-    private void copyPieces(ArrayList<Piece> src, ArrayList<Piece> dst) {
-        dst.clear();
-        for (int i = 0; i < src.size(); i++) {
-            dst.add(src.get(i));
-        }
+    public void launchGame() {
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
     @Override
@@ -105,14 +107,14 @@ public class GameView extends JPanel implements Runnable {
             lastTime = currentTime;
             if (delta >= 1) {
                 update();
-                repaint();
+                gw.repaint();
                 delta--;
             }
         }
     }
 
     // fer updates de posició i peces que queden
-    private void update() {
+    public void update() {
         // logica del ratolí
         if (ratoli.pulsado) {
             // revisem si el jugador està o no agafant una peça
@@ -130,7 +132,7 @@ public class GameView extends JPanel implements Runnable {
                 movimentMouse();
             }
         }
-        if (ratoli.pulsado == false) {
+        if (!ratoli.pulsado) {
             if (peca_escollida != null) {
                 if (casellaValida) {
                     // Moviment confirmat
@@ -158,7 +160,6 @@ public class GameView extends JPanel implements Runnable {
 
         // Reset llista de peces en cada iteració
         copyPieces(pieces, simPieces);
-
         peca_escollida.x = ratoli.x - GameBoard.MITJ;
         peca_escollida.y = ratoli.y - GameBoard.MITJ;
         peca_escollida.col = peca_escollida.getCol(peca_escollida.x);
@@ -174,28 +175,48 @@ public class GameView extends JPanel implements Runnable {
         }
     }
 
-    private void changeTurn() {
-        if (currentColor == WHITE) currentColor = BLACK;
-        else currentColor = WHITE;
+    public void changeTurn() {
+        int state = checkEndGame();
+        int timeMsg = 2000;
+        if (state == END_GAME){
+            currentColor = END_GAME;
+            tornMsg = "PARTIDA ACABADA";
+            timeMsg = 9999999;
+        } else if (currentColor == WHITE) {
+            currentColor = BLACK;
+            tornMsg = "Torn negres";
+        } else if(currentColor == BLACK) {
+            currentColor = WHITE;
+            tornMsg = "Torn Blanques";
+        }
         peca_escollida = null;
+        missatgeCanviTron = true;
+        Timer timer = new Timer(timeMsg, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                missatgeCanviTron = false;
+                gw.repaint();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+
+        gw.repaint();
+
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D gD = (Graphics2D) g;
-        board.draw(gD);
-        for (Piece p : simPieces) {
-            p.draw(gD);
-        }
-        if (peca_escollida != null) {
-            gD.setColor(Color.white);
-            gD.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
-            gD.fillRect(peca_escollida.col*GameBoard.SQUARE_SIZE, peca_escollida.row*GameBoard.SQUARE_SIZE, GameBoard.SQUARE_SIZE, GameBoard.SQUARE_SIZE);
-            gD.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-
-            if (potMoure) {
-                peca_escollida.draw(gD);
+    public int checkEndGame(){
+        int countKing = 0;
+        for (Piece piece  : pieces) {
+            if ("King".equals(piece.getTypePiece())) {
+                if(piece.color == WHITE) countKing = countKing + 1;
+                else countKing = countKing - 1 ;
             }
         }
+        if(countKing != 0){
+            return END_GAME;
+        }
+        return 0;
     }
+
 }

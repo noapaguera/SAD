@@ -1,11 +1,12 @@
-package piece;
+package models.piece;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import main.GameBoard;
-import main.GameView;
+
+import controller.GameController;
+import models.GameBoard;
 
 public class Piece {
     public BufferedImage image;
@@ -55,8 +56,8 @@ public class Piece {
     }
 
     public int getIndex() {
-        for (int index = 0; index < GameView.simPieces.size(); ++index) {
-            if (GameView.simPieces.get(index) == this) {
+        for (int index = 0; index < GameController.simPieces.size(); ++index) {
+            if (GameController.simPieces.get(index) == this) {
                 return index;
             }
         }
@@ -96,7 +97,7 @@ public class Piece {
     }
 
     public Piece getHitPiece(int targetCol, int targetRow) {
-        for (Piece piece : GameView.simPieces) {
+        for (Piece piece : GameController.simPieces) {
             if (piece.col == targetCol && piece.row == targetRow && piece != this) {
                 return piece;
             }
@@ -122,7 +123,7 @@ public class Piece {
     public boolean pecaEnLiniaRecta(int targetCol, int targetRow) {
         // quan la peça es mou a l'esquerra
         for (int c = preCol - 1; c > targetCol; c--) {
-            for (Piece piece : GameView.simPieces) {
+            for (Piece piece : GameController.simPieces) {
                 if (piece.col == c && piece.row == targetRow) {
                     hitPiece = piece;
                     return true;
@@ -131,7 +132,7 @@ public class Piece {
         }
         // quan la peça es mou a la dreta
         for (int c = preCol + 1; c < targetCol; c++) {
-            for (Piece piece : GameView.simPieces) {
+            for (Piece piece : GameController.simPieces) {
                 if (piece.col == c && piece.row == targetRow) {
                     hitPiece = piece;
                     return true;
@@ -140,7 +141,7 @@ public class Piece {
         }
         // quan la peça es mou adalt
         for (int r = preRow - 1; r > targetRow; r--) {
-            for (Piece piece : GameView.simPieces) {
+            for (Piece piece : GameController.simPieces) {
                 if (piece.col == targetCol && piece.row == r) {
                     hitPiece = piece;
                     return true;
@@ -149,7 +150,7 @@ public class Piece {
         }
         // quan la peça es mou abaix
         for (int r = preRow + 1; r < targetRow; r++) {
-            for (Piece piece : GameView.simPieces) {
+            for (Piece piece : GameController.simPieces) {
                 if (piece.col == targetCol && piece.row == r) {
                     hitPiece = piece;
                     return true;
@@ -164,7 +165,7 @@ public class Piece {
             // adalt esquerra
             for (int c = preCol - 1; c > targetCol; c--) {
                 int diff = Math.abs(c - preCol);
-                for (Piece piece : GameView.simPieces) {
+                for (Piece piece : GameController.simPieces) {
                     if (piece.col == c && piece.row == preRow - diff) {
                         hitPiece = piece;
                         return true;
@@ -174,7 +175,7 @@ public class Piece {
             // adalt dreta
             for (int c = preCol + 1; c < targetCol; c++) {
                 int diff = Math.abs(c - preCol);
-                for (Piece piece : GameView.simPieces) {
+                for (Piece piece : GameController.simPieces) {
                     if (piece.col == c && piece.row == preRow - diff) {
                         hitPiece = piece;
                         return true;
@@ -186,7 +187,7 @@ public class Piece {
             // abaix esquerra
             for (int c = preCol - 1; c > targetCol; c--) {
                 int diff = Math.abs(c - preCol);
-                for (Piece piece : GameView.simPieces) {
+                for (Piece piece : GameController.simPieces) {
                     if (piece.col == c && piece.row == preRow + diff) {
                         hitPiece = piece;
                         return true;
@@ -196,7 +197,7 @@ public class Piece {
             // abaix dreta
             for (int c = preCol + 1; c < targetCol; c++) {
                 int diff = Math.abs(c - preCol);
-                for (Piece piece : GameView.simPieces) {
+                for (Piece piece : GameController.simPieces) {
                     if (piece.col == c && piece.row == preRow + diff) {
                         hitPiece = piece;
                         return true;
@@ -205,6 +206,10 @@ public class Piece {
             }
         }
         return false;
+    }
+
+    public String getTypePiece(){
+        return "No King";
     }
 
     public void draw(Graphics2D gD) {

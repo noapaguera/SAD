@@ -1,12 +1,12 @@
-package piece;
+package models.piece;
 
-import main.GameView;
+import controller.GameController;
 
 public class Queen extends Piece{
     public Queen(int color, int col, int row) {
         super(color, col, row);
         
-        if (color == GameView.WHITE) {
+        if (color == GameController.WHITE) {
             image = getImage("/images/w-queen.png");
         } else {
             image = getImage("/images/b-queen.png");

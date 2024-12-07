@@ -1,12 +1,12 @@
-package piece;
+package models.piece;
 
-import main.GameView;
+import controller.GameController;
 
 public class King extends Piece{
     public King(int color, int col, int row) {
         super(color, col, row);
         
-        if (color == GameView.WHITE) {
+        if (color == GameController.WHITE) {
             image = getImage("/images/w-king.png");
         } else {
             image = getImage("/images/b-king.png");
@@ -21,5 +21,10 @@ public class King extends Piece{
             }
         }
         return false;
+    }
+
+    @Override
+    public String getTypePiece(){
+        return "King";
     }
 }

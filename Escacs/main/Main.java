@@ -1,5 +1,6 @@
 package main;
 import javax.swing.JFrame;
+import views.GameView;
 
 
 public class Main {
@@ -18,6 +19,6 @@ public class Main {
         //mostrem la finestra al centre
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-        v.launchGame();
+        v.gc.launchGame();
     }
 }
