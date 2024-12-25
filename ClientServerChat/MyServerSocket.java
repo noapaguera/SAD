@@ -7,8 +7,12 @@ public class MyServerSocket {
     
     private ServerSocket ss;
 
-    public MyServerSocket(int port) throws IOException {
-        this.ss = new ServerSocket(port);
+    public MyServerSocket(int port) {
+        try {
+            this.ss = new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public MySocket accept() {
@@ -21,8 +25,12 @@ public class MyServerSocket {
         return null;
     }
 
-    public void close() throws IOException {
-        ss.close();
-        System.out.println("S'ha tancat el servidor");
+    public void close() {
+        try {
+            ss.close();
+            System.out.println("S'ha tancat el servidor");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

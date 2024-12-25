@@ -11,30 +11,47 @@ public class MySocket {
     private BufferedReader r;
     private PrintWriter w;
 
-    public MySocket(String host, int port) throws IOException {
-        this.s = new Socket(host, port);
-        this.r = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        this.w = new PrintWriter(s.getOutputStream(), true);    
+    public MySocket(String host, int port) {
+        try {
+            this.s = new Socket(host, port);
+            this.r = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            this.w = new PrintWriter(s.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public MySocket(Socket socket) throws IOException {
-        this.s = socket;
-        this.r = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        this.w = new PrintWriter(s.getOutputStream(), true);    
+    public MySocket(Socket socket) {
+        try {
+            this.s = socket;
+            this.r = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            this.w = new PrintWriter(s.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public String readLine() throws IOException {
-        return r.readLine();
+    public String readLine() {
+        try {
+            return r.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void println(String msg) {
         w.println(msg);
     }
 
-    public void close() throws IOException {
-        r.close();
-        w.close();
-        s.close();
-        System.out.println("Socket tancat");
+    public void close() {
+        try {
+            if (r != null) r.close();
+            if (w != null) w.close();
+            s.close();
+            System.out.println("Socket tancat");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     } 
 }

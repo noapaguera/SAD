@@ -6,7 +6,8 @@ import java.io.InputStreamReader;
 
 public class EchoClient {
     public static void main(String[] args) {
-        MySocket s = new MySocket(args[0], Integer.parseInt(args[1]));
+        MySocket s = new MySocket(args[0], Integer.parseInt(args[1])); // host, port
+        
         // Keyboard thread
         new Thread() {
             public void run() {
@@ -17,8 +18,8 @@ public class EchoClient {
                         s.println(line);
                     }
                     // close s for writing
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 s.close();
             }
