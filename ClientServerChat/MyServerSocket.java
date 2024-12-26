@@ -4,15 +4,11 @@ import java.io.IOException;
 import java.net.*;
 
 public class MyServerSocket {
-    
+
     private ServerSocket ss;
 
-    public MyServerSocket(int port) {
-        try {
-            this.ss = new ServerSocket(port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public MyServerSocket(int port) throws IOException {
+        this.ss = new ServerSocket(port);
     }
 
     public MySocket accept() {

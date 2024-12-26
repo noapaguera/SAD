@@ -38,3 +38,4 @@ public class EchoClient {
 }
 
 // java EchoClient args[0] args[1]
+// java ClientServerChat.EchoClient localhost 5000
