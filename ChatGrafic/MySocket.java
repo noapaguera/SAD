@@ -1,4 +1,4 @@
-package XatGrafic;
+package ChatGrafic;
 
 import java.io.*;
 import java.net.*;

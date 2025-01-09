@@ -122,6 +122,7 @@ public class GameController implements Runnable{
                 for (Piece piece : simPieces) {
                     // saber quina peça estem escollint dividim la posició del ratolí entre els
                     // quadrats per obtenir la posició de la peça
+                    // validem que estem escollint una peça
                     if (piece.color == currentColor && piece.col == ratoli.x / GameBoard.SQUARE_SIZE
                             && piece.row == ratoli.y / GameBoard.SQUARE_SIZE) {
                         peca_escollida = piece;

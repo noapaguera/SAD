@@ -1,5 +1,7 @@
 package views;
 
+import controller.GameController;
+import controller.Ratoli;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,11 +9,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
-
-import controller.Ratoli;
 import models.GameBoard;
 import models.piece.*;
-import controller.GameController;
 
 public class GameView extends JPanel {
     public static final int AMPLE = 800;

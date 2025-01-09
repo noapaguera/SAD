@@ -1,4 +1,4 @@
-package XatGrafic;
+package ChatGrafic;
 
 import java.io.IOException;
 import java.net.*;
