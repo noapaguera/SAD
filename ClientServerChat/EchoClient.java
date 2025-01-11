@@ -30,7 +30,7 @@ public class EchoClient {
             public void run() {
                 String line;
                 while ((line = s.readLine()) != null) {
-                    System.out.println(line);
+                        System.out.println(line);
                 }
             }
         }.start();
