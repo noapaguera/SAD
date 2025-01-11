@@ -1,9 +1,9 @@
 package ChatGrafic;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class ChatGUI {
     private JFrame frame;
@@ -19,19 +19,19 @@ public class ChatGUI {
     }
 
     private void initialize() {
-        // Configurar la ventana principal
+        // Finestra
         frame = new JFrame("Chat Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(new BorderLayout());
 
-        // Área de mensajes
+        // Área de missatges
         messageArea = new JTextArea();
         messageArea.setEditable(false);
         JScrollPane messageScrollPane = new JScrollPane(messageArea);
         frame.add(messageScrollPane, BorderLayout.CENTER);
 
-        // Campo de entrada de texto
+        //Entrada de text
         inputField = new JTextField();
         inputField.addActionListener(new ActionListener() {
             @Override
@@ -41,16 +41,16 @@ public class ChatGUI {
         });
         frame.add(inputField, BorderLayout.SOUTH);
 
-        // Solicitar el apodo del usuario
-        nickname = JOptionPane.showInputDialog(frame, "Introduce tu apodo:");
+        // nickname
+        nickname = JOptionPane.showInputDialog(frame, "Introdueix el nom:");
         if (nickname != null && !nickname.trim().isEmpty()) {
             socket.println(nickname);
         } else {
-            JOptionPane.showMessageDialog(frame, "El apodo no puede estar vacío. Cerrando la aplicación.");
+            JOptionPane.showMessageDialog(frame, "El nom no pot estar buit! Tancant.");
             System.exit(0);
         }
 
-        // Hacer visible la ventana
+        
         frame.setVisible(true);
     }
 
@@ -61,6 +61,11 @@ public class ChatGUI {
             inputField.setText("");
         }
     }
+    // fer que el missatge es vegui en la interfície dels dos usuaris en el mateix servidor
+    public void addMessage(String message) {
+        messageArea.append(message + "\n");
+    }
+    
 
     private void startListening() {
         new Thread(() -> {

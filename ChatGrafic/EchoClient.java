@@ -5,37 +5,39 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class EchoClient {
-    public static void main(String[] args) {
-        MySocket s = new MySocket(args[0], Integer.parseInt(args[1])); // host, port
-        ChatGUI chatGUI = new ChatGUI(s);
-        // Keyboard thread
-        new Thread() {
+    
+        public static void main(String[] args) {
+            MySocket socket = new MySocket(args[0], Integer.parseInt(args[1])); // host, port
+
+        // Iniciar interfície gràfica
+        ChatGUI chatGUI = new ChatGUI(socket);
+        //Keyboard Thread
+         new Thread() {
             public void run() {
                 String line;
                 BufferedReader kbd = new BufferedReader(new InputStreamReader(System.in));
                 try {
                     while ((line = kbd.readLine()) != null) {
-                        s.println(line);
+                        socket.println(line); // Enviar el mensaje al servidor
                     }
-                    // close s for writing
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                s.close();
+                socket.close();
             }
         }.start();
 
-        // Console thread
-        new Thread() {
-            public void run() {
-                String line;
-                while ((line = s.readLine()) != null) {
-                    System.out.println(line);
-                }
+        // Console Thread (ara amb interfície)
+        new Thread(() -> {
+            String line;
+            while ((line = socket.readLine()) != null) {
+                chatGUI.addMessage(line);
             }
-        }.start();
+            socket.close();
+        }).start();
     }
 }
+
 
 // java EchoClient args[0] args[1]
 // java ClientServerChat.EchoClient localhost 5000
