@@ -10,8 +10,8 @@ public class Line extends Observable{
 
 	public Line() {
 		cursorPos = 0;
-		line = new ArrayList<Character>();
 		insert = false;
+		line = new ArrayList<Character>();
 		Console c = new Console(this);
 		this.addObserver(c);
 	}
@@ -39,7 +39,7 @@ public class Line extends Observable{
 		if (this.cursorPos > 0) {
 			this.cursorPos--;
 			this.line.remove(this.cursorPos);
-			System.out.print("\u001b[D");
+			System.out.print("\u001b[D"); // CSI n D 	Cursor Back. Moves the cursor n (default 1) cells in the given direction. 
 			System.out.print("\u001b[P");
 		}
 	}
@@ -47,6 +47,8 @@ public class Line extends Observable{
 	public void delete() {
 		if (this.cursorPos >= 0 && this.cursorPos < this.line.size()) {
 			this.line.remove(this.cursorPos);
+/* 			this.setChanged();
+			this.notifyObservers("\u001b[C"); // CSI n C 	Cursor Forward */
 			System.out.print("\u001b[P");
 		}
 	}
@@ -59,7 +61,7 @@ public class Line extends Observable{
 		if (this.cursorPos < line.size()) {
 			this.cursorPos++;
 			this.setChanged();
-			this.notifyObservers("\u001b[C");
+			this.notifyObservers("\u001b[C"); // CSI n C 	Cursor Forward
 		}
 	}
 

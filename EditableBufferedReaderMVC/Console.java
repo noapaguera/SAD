@@ -7,13 +7,11 @@ public class Console implements Observer{
     private Line l;
     public Console (Line line) {
         this.l = line;
+        l.addObserver(this);
     }
 
-    public void update(Observable Obs, Object arg) {
-        //System.out.println(arg);
-        if (Obs == l) {
-            System.out.print((String) arg);
-            System.out.flush();
-        }
+    public void update(Observable obs, Object arg) {
+        System.out.flush();
+        System.out.print("\u001b[" + (l.getPos() + 1) + "G");
     }
 }

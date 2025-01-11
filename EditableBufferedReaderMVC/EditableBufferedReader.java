@@ -2,7 +2,7 @@ package EditableBufferedReaderMVC;
 
 import java.io.*;
 
-public class EditableBufferedReader extends BufferedReader{
+public class EditableBufferedReader extends BufferedReader {
 
     static final int CR = 13;
     static final int ESC = 27;
@@ -14,11 +14,14 @@ public class EditableBufferedReader extends BufferedReader{
     static final int BACKSPACE = 127;
     static final int INSERT = 50;
     static final int DELETE = 51;
- 
-    public EditableBufferedReader(InputStreamReader in) {
+
+    private Line line;
+
+    public EditableBufferedReader(Line line, InputStreamReader in) {
         super(in);
+        this.line = line;
     }
-    
+
     public void setRaw() {
         try {
             ProcessBuilder pb = new ProcessBuilder("sh", "-c", "stty -echo raw < /dev/tty");
@@ -35,6 +38,35 @@ public class EditableBufferedReader extends BufferedReader{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int read() throws IOException {
+        int ch = 0;
+        if ((ch = super.read()) == ESC) {
+            if ((ch = super.read()) == BRACKET) {
+                switch (ch = super.read()) {
+                    case 'C':
+                        return RIGHT; // Fletxa dreta ^[[C
+                    case 'D':
+                        return LEFT; // Fletxa esquerra ^[[D
+                    case 'H':
+                        return HOME; // Home ^[[H
+                    case 'F':
+                        return FIN; // End ^[[F
+                    case '2':
+                        ch = super.read();
+                        return INSERT; // ^[[2~
+                    case '3':
+                        ch = super.read();
+                        return DELETE; // ^[[3~
+                    default:
+                        break;
+                }
+            }
+        } else if (ch == BACKSPACE) { // ^? Backspace
+            return BACKSPACE;
+        }
+        return ch;
     }
 
     // Llegeix la línia amb possibilitat d'editar-la
@@ -63,7 +95,7 @@ public class EditableBufferedReader extends BufferedReader{
                     line.insert();
                     break;
                 case DELETE:
-                    ch = super.read();
+//                    ch = super.read();
                     line.delete();
                     break;
                 default:
@@ -76,5 +108,4 @@ public class EditableBufferedReader extends BufferedReader{
         line.home();
         return line.toString();
     }
-
 }

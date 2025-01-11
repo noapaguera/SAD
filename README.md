@@ -9,6 +9,11 @@ Aplicació de consola per editar text. S'han desenvolupat dues versions:
 
 Primera versió del programa. Programació de la classe EditableBufferedReader que extén BufferedReader i afegeix capacitats d'edició.
 
+- right, left: caràcter dreta, caràcter esquerra amb les fletxes.
+- home, end: principi, final de línia.
+- ins: commuta mode inserció/sobre-escriptura.
+- del, bksp: esborra caràcter actual o caràcter a l’esquerra.
+
 ### Versió amb MVC
 
 - Model (Line): l'estat de l'aplicació, que canvia
