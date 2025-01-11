@@ -75,4 +75,7 @@ public class ChatGUI {
             }
         }).start();
     }
+    public String getClientName() {
+        return nickname;
+    }   
 }

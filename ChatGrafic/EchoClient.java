@@ -11,6 +11,7 @@ public class EchoClient {
 
         // Iniciar interfície gràfica
         ChatGUI chatGUI = new ChatGUI(socket);
+        String clientName = chatGUI.getClientName();
         //Keyboard Thread
          new Thread() {
             public void run() {
@@ -18,7 +19,9 @@ public class EchoClient {
                 BufferedReader kbd = new BufferedReader(new InputStreamReader(System.in));
                 try {
                     while ((line = kbd.readLine()) != null) {
+                        String message = clientName + ": " + line;
                         socket.println(line); // Enviar el mensaje al servidor
+                        chatGUI.addMessage(message);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -31,8 +34,9 @@ public class EchoClient {
         new Thread(() -> {
             String line;
             while ((line = socket.readLine()) != null) {
-                chatGUI.addMessage(line);
-            }
+                if (!line.startsWith(clientName + ":")) {
+                    chatGUI.addMessage(line);
+            }}
             socket.close();
         }).start();
     }
