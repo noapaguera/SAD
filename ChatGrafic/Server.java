@@ -1,10 +1,11 @@
 package ChatGrafic;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class EchoServer {
+public class Server {
     private static ConcurrentMap<String, MySocket> clients = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
@@ -16,16 +17,16 @@ public class EchoServer {
                     public void run() {
                         String nick = s.readLine();
                         clients.put(nick, s);
-                        broadcast(nick + " ha entrat al xat");
+                        broadcast(nick, " ha entrat al xat");
 
                         String line;
                         while ((line = s.readLine()) != null) {
-                            broadcast(nick + ": " + line);
-                            s.println(line);
+                            broadcast(nick, ": " + line);
+                            s.println(nick + ": "+ line);
                         }
 
                         clients.remove(nick);
-                        broadcast(nick + " ha sortit del xat");
+                        broadcast(nick, " ha sortit del xat");
                         s.close();
                     }
                 }.start();
@@ -35,11 +36,15 @@ public class EchoServer {
         }
     }
 
-    private static void broadcast(String message) {
-        for (MySocket client : clients.values()) {
-            client.println(message);
+    private static void broadcast(String nick, String message) {
+        for (Map.Entry<String, MySocket> entry : clients.entrySet()) {
+            String currentUser = entry.getKey();
+            MySocket currentSocket = entry.getValue();
+            if (currentUser != nick) {
+                currentSocket.println(nick + message);
+            }
         }
     }
 }
 
-// java ClientServerChat.EchoServer 5000
+// java ClientServerChat.Server 5000

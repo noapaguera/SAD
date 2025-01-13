@@ -23,7 +23,6 @@ public class EchoServer {
                         String line;
                         while ((line = s.readLine()) != null) {
                             broadcast(nick, ": " + line);
-//                            s.println(line);
                         }
                         clients.remove(nick);
                         broadcast(nick, " ha sortit del xat");
@@ -37,7 +36,6 @@ public class EchoServer {
     }
 
     private static void broadcast(String nick, String message) {
-    //    MySocket client= clients.get(nick);
         for (Map.Entry<String, MySocket> entry : clients.entrySet()) {
             String currentUser = entry.getKey();
             MySocket currentSocket = entry.getValue();

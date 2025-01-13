@@ -4,23 +4,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class EchoClient {
-    
-        public static void main(String[] args) {
-            MySocket socket = new MySocket(args[0], Integer.parseInt(args[1])); // host, port
+public class Client {
+
+    public static void main(String[] args) {
+        MySocket socket = new MySocket(args[0], Integer.parseInt(args[1])); // host, port
 
         // Iniciar interfície gràfica
         ChatGUI chatGUI = new ChatGUI(socket);
         String clientName = chatGUI.getClientName();
-        //Keyboard Thread
-         new Thread() {
+
+        // Keyboard Thread
+        new Thread() {
             public void run() {
                 String line;
                 BufferedReader kbd = new BufferedReader(new InputStreamReader(System.in));
                 try {
                     while ((line = kbd.readLine()) != null) {
                         String message = clientName + ": " + line;
-                        socket.println(line); // Enviar el mensaje al servidor
+                        socket.println(line); // Enviar el missatge al servidor
                         chatGUI.addMessage(message);
                     }
                 } catch (IOException e) {
@@ -34,14 +35,12 @@ public class EchoClient {
         new Thread(() -> {
             String line;
             while ((line = socket.readLine()) != null) {
-                if (!line.startsWith(clientName + ":")) {
-                    chatGUI.addMessage(line);
-            }}
+                chatGUI.addMessage(line);
+            }
             socket.close();
         }).start();
     }
 }
 
-
-// java EchoClient args[0] args[1]
-// java ClientServerChat.EchoClient localhost 5000
+// java Client args[0] args[1]
+// java ChatGrafic.Client localhost 5000
