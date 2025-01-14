@@ -16,16 +16,6 @@ public class KEY {
     public static final int TILDE_ASCII = 126; // "~"
     public static final int BACKSPACE_ASCII = 127; // "\b"
 
-    // ANSI escape code
-    public static final String INS_ANSI = "\033[2~";
-    public static final String DEL_ANSI = "\033[3~";
-    public static final String UP_ANSI = "\033[A";
-    public static final String DOWN_ANSI = "\033[B";
-    public static final String RIGHT_ANSI = "\033[C";
-    public static final String LEFT_ANSI = "\033[D";
-    public static final String END_ANSI = "\033[F";
-    public static final String HOME_ANSI = "\033[H";
-
     public static final int INSERT = -50;
     public static final int DELETE = -51;
     public static final int UP = -65;

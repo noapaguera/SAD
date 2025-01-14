@@ -1,6 +1,7 @@
-package EditableBufferedReader;
+package EditableMVCPropertyChange;
 
 import java.io.*;
+import java.io.BufferedReader;
 
 public class EditableBufferedReader extends BufferedReader {
 
@@ -15,11 +16,10 @@ public class EditableBufferedReader extends BufferedReader {
     static final int INSERT = 50;
     static final int DELETE = 51;
     
-    public final Line linia;
+    Console console;
 
     public EditableBufferedReader(InputStreamReader in) {
         super(in);
-        linia = new Line();
     }
 
     public void setRaw() {
@@ -147,6 +147,8 @@ public class EditableBufferedReader extends BufferedReader {
 
     // Llegeix la línia amb possibilitat d'editar-la
     public String readLine() throws IOException {
+        Console console = new Console();
+        Line linia = new Line(console);
         this.setRaw();
         int ch = this.read();
         while (ch != CR) {
